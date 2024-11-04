@@ -368,7 +368,7 @@ volumes:
 
 > sudo chown -R $USER:$USER 
 
-Cambio de pertenencia de archivos de root al usuario que sea
+Cambio de pertenencia de archivos de root al usuario que sea (la palabra USER lleva delante $)
 
 
 A la hora de escribir el ```Dockerfile```no le metas el .txt no lo necesita, no seas gilipollas.
