@@ -356,3 +356,15 @@ volumes:
 ---
 
 ## Comandos de Linux
+
+> nano
+
+> sudo su
+
+> mkdir
+
+> rm
+
+> ls
+
+A la hora de escribir el ```Dockerfile```no le metas el .txt no lo necesita, no seas gilipollas.
