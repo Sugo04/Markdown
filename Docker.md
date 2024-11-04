@@ -314,8 +314,7 @@ CMD /start.sh
 - Muestra información de los contenedores según la configuración de “docker-compose.yml”.
 
 >docker compose up -d --scale web=3
-- Similar a “docker compose up -d” solo que además, el servicio definido como “web” en el fichero “dockercompose.yml” lo escala creando 3 copias y realizando balanceo automático si se realiza una petición al host
-llamado como el servicio “web”.
+- Similar a “docker compose up -d” solo que además, el servicio definido como “web” en el fichero “dockercompose.yml” lo escala creando 3 copias y realizando balanceo automático si se realiza una petición al host llamado como el servicio “web”.
 
 ### Modelo DockerCompose
 
@@ -366,5 +365,10 @@ volumes:
 > rm
 
 > ls
+
+> sudo chown -R $USER:$USER 
+
+Cambio de pertenencia de archivos de root al usuario que sea
+
 
 A la hora de escribir el ```Dockerfile```no le metas el .txt no lo necesita, no seas gilipollas.
