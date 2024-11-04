@@ -4,6 +4,25 @@
 ## Comandos de Linux
 
 ## Comandos de Docker
+### Docker Run
+> docker run -it --name=cont1 ubuntu /bin/bash
+- docker run: Inicia un nuevo contenedor.
+- -it: Combina dos opciones:
+    - -i (interactivo) permite que se mantenga la entrada estándar abierta.
+    - -t (pseudo-TTY) asigna una pseudo-terminal al contenedor.
+- --name=cont1: Asigna el nombre cont1 al contenedor.
+- ubuntu: Utiliza la imagen de Ubuntu para crear el contenedor. Si no tienes la imagen
+localmente, Docker la descargará del repositorio Docker Hub.
+- /bin/bash: El comando que se ejecuta dentro del contenedor, en este caso, el shell
+Bash.
+
+> docker run -d -p 1200:80 nginx
+- docker run: Inicia un nuevo contenedor.
+- -d: Ejecuta el contenedor en segundo plano (modo "detached").
+- -p 1200:80: Mapea el puerto 1200 del host al puerto 80 del contenedor. Esto significa que
+podrás acceder al servidor Nginx desde el host a través del puerto 1200.
+- nginx: Utiliza la imagen de Nginx para crear el contenedor. Si no tienes la imagen localmente,
+Docker la descargará del repositorio Docker Hub.
 
 ### Modelo DockerFile
 
