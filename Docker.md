@@ -1,9 +1,33 @@
 # Docker Giga CheatSheet
 ---
+(Aclaro por si acaso que primero va el comando y luego su descripción, gracias por leer.)
 
-## Comandos de Linux
-
+---
 ## Comandos de Docker
+
+### Docker ps
+> docker ps
+
+El comando docker ps proporciona una tabla con información sobre cada contenedor en ejecución. Los campos más
+comunes que muestra son:
+- **CONTAINER ID**: El identificador único del contenedor.
+
+- **IMAGE**: La imagen de Docker utilizada para crear el contenedor.
+
+- **COMMAND**: El comando que se está ejecutando en el contenedor.
+
+- **CREATED**: El tiempo que ha pasado desde que se creó el contenedor.
+
+- **STATUS**: El estado actual del contenedor.
+
+- **PORTS**: Los puertos en los que está expuesto el contenedor.
+
+- **NAMES**: El nombre asignado al contenedor.
+
+> docker ps -a
+
+El comando docker ps -a proporciona una tabla con información sobre todos los contenedores, incluyendo aquellos que están detenidos. Muestra lo mismo que ```docker ps```.
+
 ### Docker Run
 > docker run -it --name=cont1 ubuntu /bin/bash
 - docker run: Inicia un nuevo contenedor.
@@ -23,6 +47,225 @@ Bash.
 podrás acceder al servidor Nginx desde el host a través del puerto 1200.
 - nginx: Utiliza la imagen de Nginx para crear el contenedor. Si no tienes la imagen localmente,
 Docker la descargará del repositorio Docker Hub.
+
+
+> docker run -it -e MENSAJE=HOLA ubuntu:14.04 bash
+
+El comando que has proporcionado crea y ejecuta un contenedor Docker interactivo basado en la imagen de Ubuntu
+14.04, asignándole una variable de entorno llamada MENSAJE con el valor HOLA, y ejecuta el shell bash dentro del
+contenedor. A continuación, te explico cada parte del comando:
+
+- docker run: Inicia un nuevo contenedor.
+
+- -it: Combina dos opciones:
+
+    - -i (interactivo) permite que se mantenga la entrada estándar abierta.
+
+    - -t (pseudo-TTY) asigna una pseudo-terminal al contenedor.
+
+- -e MENSAJE=HOLA: Define una variable de entorno llamada MENSAJE con el valor HOLA dentro del
+contenedor.
+
+- ubuntu:14.04: Utiliza la imagen de Ubuntu en su versión 14.04 para crear el contenedor. Si no
+tienes la imagen localmente, Docker la descargará del repositorio Docker Hub.
+
+- bash: El comando que se ejecuta dentro del contenedor, en este caso, el shell Bash.
+
+Al ejecutar este comando, tendrás una sesión interactiva de Bash dentro de un contenedor de Ubuntu
+14.04 con la variable de entorno MENSAJE establecida en HOLA. Puedes usar esta sesión para instalar
+software, realizar pruebas u otras tareas.
+
+### Docker Start/Stop/Restart
+> docker start micontenedor
+
+El comando docker start se utiliza para iniciar un contenedor Docker que ha sido previamente detenido. 
+
+> docker start -ai micontenedor
+
+El comando docker start -ai micontenedor se utiliza para iniciar un contenedor detenido y adjuntar la
+terminal de manera interactiva a su salida estándar.
+
+- -a: Adjunta la terminal del host a la salida estándar (stdout) y a la entrada estándar (stdin) del contenedor.
+
+- -i: Abre la terminal de manera interactiva, permitiendo la entrada de comandos.
+
+- micontenedor: El nombre o ID del contenedor que deseas iniciar.
+
+Se utiliza para reiniciar un contenedor existente que ha sido detenido, recuperando su estado y
+permitiendo la interacción. 
+
+### Docker exec
+> docker exec -it -e FICHERO=prueba cont bash
+
+El comando docker exec se utiliza para ejecutar un nuevo comando en un contenedor que ya está en ejecución. La combinación docker exec -it -e FICHERO=prueba cont bash ejecuta un shell Bash dentro del contenedor cont y establece una variable de entorno llamada FICHERO con el valor prueba.
+
+ ```docker exec```: Ejecuta un nuevo comando en un contenedor que ya está en ejecución.
+
+- -it: Combina dos opciones:
+
+    - -i (interactivo): Mantiene la entrada estándar abierta.
+
+    - -t (pseudo-TTY): Asigna una pseudo-terminal al comando.
+
+- -e FICHERO=prueba: Define una variable de entorno llamada FICHERO con el valor prueba que estará disponible solo en el contexto del comando que se ejecuta.
+
+- cont: El nombre o ID del contenedor en el que se ejecutará el comando.
+
+- bash: El comando a ejecutar dentro del contenedor. En este caso, abre un shell Bash.
+
+> docker exec -d cont touch /tmp/prueba
+
+El comando docker exec -d cont touch /tmp/prueba se utiliza para ejecutar un comando dentro de un contenedor en ejecución (cont) de forma desacoplada, es decir, en segundo plano.
+
+```docker exec```: Ejecuta un nuevo comando en un contenedor que ya está en ejecución.
+
+- -d: Ejecuta el comando en modo desacoplado (detached mode), es decir, en segundo plano.
+
+- cont: El nombre o ID del contenedor en el que se ejecutará el comando.
+
+- touch /tmp/prueba: El comando que se ejecutará dentro del contenedor. En este caso, el comando touch crea un archivo vacío (o actualiza la marca de tiempo si el archivo ya existe) en la ruta /tmp/prueba.
+
+### Docker attach
+> docker attach idcontainer
+
+El comando docker attach idcontainer se usa para adjuntar tu terminal a un contenedor Docker que ya está en ejecución. Esto te permite interactuar con los procesos que se están ejecutando dentro del contenedor como si estuvieras trabajando directamente en su terminal.
+
+- docker: Este es el comando principal para interactuar con Docker.
+
+- attach: Este subcomando indica que deseas adjuntar tu terminal a un contenedor en ejecución.
+
+- idcontainer: Esto debe ser reemplazado por el ID o el nombre del contenedor al que deseas adjuntarte.
+
+### Docker logs
+> docker logs -n 10 idcontainer
+
+Muestra las 10 últimas líneas de la salida estándar producida por el proceso en ejecución en el contendor.
+
+### Docker cp
+> docker cp idcontainer:/tmp/prueba ./
+
+Copia el fichero “/tmp/prueba” del contenedor “idcontainer” al directorio actual del anfitrión.
+
+> docker cp ./miFichero idcontainer:/tmp
+
+Copia el fichero “miFichero” del directorio actual del anfitrión a la carpeta “/tmp” del contenedor
+
+### Gestion de Images
+
+> docker images
+
+Información de imágenes locales disponibles.
+
+> docker search ubuntu
+
+Busca la imagen “ubuntu” en el repositorio remoto (por defecto Docker Hub).
+
+> docker pull alpine
+
+ Descarga localmente imagen “alpine”
+
+> docker history alpine
+
+Muestra la historia de creación de la imagen “alpine”.
+
+> docker rmi ubuntu:14.04
+
+Elimina localmente la imagen “ubuntu” con tag “14.04”
+
+> docker rmi $(docker images -q)
+
+Borra toda imagen local que no esté siendo usada por un contenedor
+> docker rm IDCONTENEDOR
+
+Borra un contenedor con IDCONTENEDOR.
+
+> docker stop $(docker ps -a -q)
+
+Para todos los contenedores del sistema.
+
+> docker rm $(docker ps -a -q)
+
+Borra todos los contenedores parados del sistema.
+
+> docker system prune -a
+
+Borra todas las imágenes y contenedores parados del sistema.
+
+### Creación de Imágenes a partir de contenedores
+
+> docker commit -m "comentario" IDCONTENEDOR usuario/imagen:version
+
+Hace commit de un contenedor existente a una imagen local.
+
+> docker save -o copiaSeguridad.tar imagenA
+
+Guarda una copia de seguridad de una imagen en fichero “.tar”
+
+> docker load -i copiaSeguridad.tar
+
+Restaura una copia de seguridad de una imagen en fichero “.tar”.
+
+### Gestión de Redes
+
+> docker network create redtest
+
+Creamos la red “redtest”
+
+>docker network ls
+
+Nos permite ver el listado de redes existentes.
+
+> docker network rm redtest
+
+Borramos la red “redtest”.
+
+> docker run -it --network redtest ubuntu /bin/bash
+
+Conectamos el contenedor que creamos a la red “redtest”.
+
+> docker network connect IDRED IDCONTENEDOR
+
+Conectamos un contenedor a una red.
+
+> docker network disconnect IDRED IDCONTENEDOR
+
+Desconectamos un contenedor de una red
+
+### Volúmenes
+
+> docker run -d -it --name appcontainer -v /home/sergi/target:/app nginx:latest
+
+Creamos un contenedor y asignamos un volumen con “binding mount”.
+
+> docker run -d -it --name appcontainer -v micontenedor:/app nginx:latest
+
+Creamos un contenedor y asignamos un volumen Docker llamado “micontenedor”.
+
+> docker volume create/ls/rm mivolumen
+
+Permite crear, listar o eliminar volúmenes Docker
+
+> docker run -d -it -tmpfs /app nginx
+
+Permite crear un contenedor y asociar un volumen “tmpfs”.
+
+> docker run --rm --volumes-from contenedor1 -v /home/sergi/backup:/backup ubuntu bash -c "cd /datos && tar cvf /backup/copiaseguridad.tar ."
+
+Permite realizar una copia de seguridad de un volumen asociado a “contenedor1” y que se monta en “/datos”. Dicha copia finalmente acabará en “/home/sergi/backup” de la máquina anfitrión
+
+> docker volume rm $(docker volume ls -q)
+
+Permite eliminar todos los lúmenes de tu máquina.
+
+### Docker Hub
+
+> docker login
+
+Permite introducir credenciales del registro (por defecto “Docker Hub”)
+
+> docker push usuario/imagen:version
+
+Permite subir al repositorio una imagen mediante “push”.
 
 ### Modelo DockerFile
 
@@ -110,3 +353,6 @@ volumes:
     db_data:
 
 ```
+---
+
+## Comandos de Linux
